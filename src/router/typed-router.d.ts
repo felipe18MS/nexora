@@ -14,12 +14,15 @@ import type {
   ParamValueZeroOrMore,
   ParamValueZeroOrOne,
 } from 'vue-router'
-import type { _ExtractParamParserType } from 'vue-router/experimental';
+import type {
+  _ExtractParamParserType,
+} from 'vue-router/experimental'
 
 declare module 'vue-router' {
   interface TypesConfig {
-    ParamParsers: never;
-    RouteNamedMap: import('vue-router/auto-routes').RouteNamedMap;
+    _ParamParsers: {}
+    RouteNamedMap: import('vue-router/auto-routes').RouteNamedMap
+    _RouteFileInfoMap: import('vue-router/auto-routes')._RouteFileInfoMap
   }
 }
 
@@ -33,29 +36,197 @@ declare module 'vue-router/auto-routes' {
       '/',
       Record<never, never>,
       Record<never, never>,
-      '//(index)' | '//second'
-    >;
-    '//(index)': RouteRecordInfo<
-      '//(index)',
-      '/',
-      Record<never, never>,
-      Record<never, never>,
-      never
-    >;
-    '//second': RouteRecordInfo<
-      '//second',
-      '/second',
-      Record<never, never>,
-      Record<never, never>,
-      never
-    >;
+      | never
+    >,
     '/[...path]': RouteRecordInfo<
       '/[...path]',
       '/:path(.*)',
       { path: ParamValue<true> },
       { path: ParamValue<false> },
-      never
-    >;
+      | never
+    >,
+    '/app': RouteRecordInfo<
+      '/app',
+      '/app',
+      Record<never, never>,
+      Record<never, never>,
+      | '/app/ai'
+      | '/app/appointments'
+      | '/app/automations'
+      | '/app/availability'
+      | '/app/calls'
+      | '/app/conversations'
+      | '/app/customers'
+      | '/app/dashboard'
+      | '/app/employees'
+      | '/app/finance'
+      | '/app/integrations'
+      | '/app/inventory'
+      | '/app/orders'
+      | '/app/products'
+      | '/app/reminders'
+      | '/app/reports'
+      | '/app/schedule'
+      | '/app/services'
+      | '/app/settings'
+      | '/app/subscription'
+      | '/app/users'
+      | '/app/whatsapp'
+    >,
+    '/app/ai': RouteRecordInfo<
+      '/app/ai',
+      '/app/ai',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/appointments': RouteRecordInfo<
+      '/app/appointments',
+      '/app/appointments',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/automations': RouteRecordInfo<
+      '/app/automations',
+      '/app/automations',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/availability': RouteRecordInfo<
+      '/app/availability',
+      '/app/availability',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/calls': RouteRecordInfo<
+      '/app/calls',
+      '/app/calls',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/conversations': RouteRecordInfo<
+      '/app/conversations',
+      '/app/conversations',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/customers': RouteRecordInfo<
+      '/app/customers',
+      '/app/customers',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/dashboard': RouteRecordInfo<
+      '/app/dashboard',
+      '/app/dashboard',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/employees': RouteRecordInfo<
+      '/app/employees',
+      '/app/employees',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/finance': RouteRecordInfo<
+      '/app/finance',
+      '/app/finance',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/integrations': RouteRecordInfo<
+      '/app/integrations',
+      '/app/integrations',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/inventory': RouteRecordInfo<
+      '/app/inventory',
+      '/app/inventory',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/orders': RouteRecordInfo<
+      '/app/orders',
+      '/app/orders',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/products': RouteRecordInfo<
+      '/app/products',
+      '/app/products',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/reminders': RouteRecordInfo<
+      '/app/reminders',
+      '/app/reminders',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/reports': RouteRecordInfo<
+      '/app/reports',
+      '/app/reports',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/schedule': RouteRecordInfo<
+      '/app/schedule',
+      '/app/schedule',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/services': RouteRecordInfo<
+      '/app/services',
+      '/app/services',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/settings': RouteRecordInfo<
+      '/app/settings',
+      '/app/settings',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/subscription': RouteRecordInfo<
+      '/app/subscription',
+      '/app/subscription',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/users': RouteRecordInfo<
+      '/app/users',
+      '/app/users',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/whatsapp': RouteRecordInfo<
+      '/app/whatsapp',
+      '/app/whatsapp',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -70,21 +241,227 @@ declare module 'vue-router/auto-routes' {
    */
   export interface _RouteFileInfoMap {
     'src/pages/index.vue': {
-      routes: '/' | '//(index)' | '//second';
-      views: 'default';
-    };
-    'src/pages/index/(index).vue': {
-      routes: '//(index)';
-      views: never;
-    };
-    'src/pages/index/second.vue': {
-      routes: '//second';
-      views: never;
-    };
+      routes:
+        | '/'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
     'src/pages/[...path].vue': {
-      routes: '/[...path]';
-      views: never;
-    };
+      routes:
+        | '/[...path]'
+      views:
+        | never
+      pathParamNames:
+        | 'path'
+    }
+    'src/pages/app.vue': {
+      routes:
+        | '/app'
+        | '/app/ai'
+        | '/app/appointments'
+        | '/app/automations'
+        | '/app/availability'
+        | '/app/calls'
+        | '/app/conversations'
+        | '/app/customers'
+        | '/app/dashboard'
+        | '/app/employees'
+        | '/app/finance'
+        | '/app/integrations'
+        | '/app/inventory'
+        | '/app/orders'
+        | '/app/products'
+        | '/app/reminders'
+        | '/app/reports'
+        | '/app/schedule'
+        | '/app/services'
+        | '/app/settings'
+        | '/app/subscription'
+        | '/app/users'
+        | '/app/whatsapp'
+      views:
+        | 'default'
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/ai.vue': {
+      routes:
+        | '/app/ai'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/appointments.vue': {
+      routes:
+        | '/app/appointments'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/automations.vue': {
+      routes:
+        | '/app/automations'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/availability.vue': {
+      routes:
+        | '/app/availability'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/calls.vue': {
+      routes:
+        | '/app/calls'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/conversations.vue': {
+      routes:
+        | '/app/conversations'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/customers.vue': {
+      routes:
+        | '/app/customers'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/dashboard.vue': {
+      routes:
+        | '/app/dashboard'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/employees.vue': {
+      routes:
+        | '/app/employees'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/finance.vue': {
+      routes:
+        | '/app/finance'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/integrations.vue': {
+      routes:
+        | '/app/integrations'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/inventory.vue': {
+      routes:
+        | '/app/inventory'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/orders.vue': {
+      routes:
+        | '/app/orders'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/products.vue': {
+      routes:
+        | '/app/products'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/reminders.vue': {
+      routes:
+        | '/app/reminders'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/reports.vue': {
+      routes:
+        | '/app/reports'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/schedule.vue': {
+      routes:
+        | '/app/schedule'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/services.vue': {
+      routes:
+        | '/app/services'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/settings.vue': {
+      routes:
+        | '/app/settings'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/subscription.vue': {
+      routes:
+        | '/app/subscription'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/users.vue': {
+      routes:
+        | '/app/users'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/whatsapp.vue': {
+      routes:
+        | '/app/whatsapp'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
   }
 
   /**
@@ -94,7 +471,9 @@ declare module 'vue-router/auto-routes' {
    * @internal
    */
   export type _RouteNamesForFilePath<FilePath extends string> =
-    _RouteFileInfoMap extends Record<FilePath, infer Info> ? Info['routes'] : keyof RouteNamedMap;
+    _RouteFileInfoMap extends Record<FilePath, infer Info>
+      ? Info['routes']
+      : keyof RouteNamedMap
 }
 
-export {};
+export {}
