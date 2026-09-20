@@ -1,9 +1,6 @@
-import {
-  crearPermisosCompletos,
-  crearPermisosLimitados,
-  crearPermisosProfesional,
-  usuariosMock,
-} from '../mocks/user.mock';
+import { obtenerModulosSistema } from '@/modules/authorization/services/authorization.service';
+
+import type { PermisosModulo } from '@/modules/authorization/types/authorization.types';
 
 import type {
   ActualizarPermisosUsuario,
@@ -11,12 +8,17 @@ import type {
   CrearUsuario,
   EstadoUsuario,
   FiltrosUsuarios,
-  ModuloPermiso,
-  PermisosModulo,
   ResumenUsuarios,
   RolUsuario,
   Usuario,
 } from '../types/user.types';
+
+import {
+  crearPermisosCompletos,
+  crearPermisosLimitados,
+  crearPermisosProfesional,
+  usuariosMock,
+} from '../mocks/user.mock';
 
 const clonarPermisos = (permisos: PermisosModulo[]): PermisosModulo[] => {
   return permisos.map((permiso) => ({
@@ -170,8 +172,11 @@ export const actualizarPermisosUsuario = (datos: ActualizarPermisosUsuario): Usu
 export const obtenerResumenUsuarios = (): ResumenUsuarios => {
   return {
     total: usuariosMock.length,
+
     activos: usuariosMock.filter((usuario) => usuario.estado === 'activo').length,
+
     inactivos: usuariosMock.filter((usuario) => usuario.estado === 'inactivo').length,
+
     pendientes: usuariosMock.filter((usuario) => usuario.estado === 'pendiente').length,
   };
 };
@@ -220,56 +225,9 @@ export const obtenerEstadosUsuario = (): Array<{
   ];
 };
 
-export const obtenerModulosPermisos = (): Array<{
-  label: string;
-  value: ModuloPermiso;
-}> => {
-  return [
-    { label: 'Dashboard', value: 'dashboard' },
-    { label: 'Clientes', value: 'clientes' },
-    { label: 'Citas', value: 'citas' },
-    { label: 'Horario', value: 'horario' },
-    {
-      label: 'Disponibilidad',
-      value: 'disponibilidad',
-    },
-    { label: 'Servicios', value: 'servicios' },
-    {
-      label: 'Profesionales',
-      value: 'empleados',
-    },
-    { label: 'Pedidos', value: 'pedidos' },
-    { label: 'Productos', value: 'productos' },
-    { label: 'Inventario', value: 'inventario' },
-    { label: 'Finanzas', value: 'finanzas' },
-    {
-      label: 'Conversaciones',
-      value: 'conversaciones',
-    },
-    { label: 'Llamadas', value: 'llamadas' },
-    { label: 'WhatsApp', value: 'whatsapp' },
-    {
-      label: 'Automatizaciones',
-      value: 'automatizaciones',
-    },
-    {
-      label: 'Recordatorios',
-      value: 'recordatorios',
-    },
-    { label: 'Agente IA', value: 'ai' },
-    {
-      label: 'Integraciones',
-      value: 'integraciones',
-    },
-    { label: 'Reportes', value: 'reportes' },
-    { label: 'Usuarios', value: 'usuarios' },
-    {
-      label: 'Configuración',
-      value: 'configuracion',
-    },
-    {
-      label: 'Suscripción',
-      value: 'suscripcion',
-    },
-  ];
+export const obtenerModulosPermisos = () => {
+  return obtenerModulosSistema().map((modulo) => ({
+    label: modulo.nombre,
+    value: modulo.codigo,
+  }));
 };

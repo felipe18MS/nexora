@@ -169,6 +169,13 @@
 import { computed, onMounted, reactive, ref } from 'vue';
 import { Notify } from 'quasar';
 
+definePage({
+  meta: {
+    module: 'reportes',
+    requiresSubscription: true,
+  },
+});
+
 import AppConfirmDialog from '../../components/common/app-confirm-dialog.vue';
 
 import ReportChart from '../../modules/reports/components/report-chart.vue';

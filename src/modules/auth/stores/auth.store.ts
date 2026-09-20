@@ -7,6 +7,13 @@ import {
   tieneAccesoAlSistema,
 } from '../../subscription';
 
+import {
+  convertirPermisosSimplesAPermisosModulo,
+  normalizarPermisos,
+} from '@/modules/authorization/services/authorization.service';
+
+import { useAuthorizationStore } from '@/modules/authorization/stores/authorization.store';
+
 import type { CredencialesLogin, CredencialesRegistro, SesionAuth } from '../types/auth.types';
 
 import { authService } from '../services/auth.service';
@@ -54,6 +61,39 @@ export const useAuthStore = defineStore('auth', () => {
     return tieneAccesoAlSistema(suscripcion.value, usuario.value?.rol ?? '');
   });
 
+  /**
+   * Sincroniza el usuario autenticado con
+   * el sistema central de autorización.
+   *
+   * Durante la etapa mock soportamos ambos modelos:
+   *
+   * 1. permisosDetallados
+   * 2. permisos: string[]
+   */
+  const sincronizarAutorizacion = (): void => {
+    const authorizationStore = useAuthorizationStore();
+
+    if (!usuario.value) {
+      authorizationStore.limpiar();
+      return;
+    }
+
+    if (esSuperadministrador.value) {
+      authorizationStore.cargarPermisosSuperadministrador();
+      return;
+    }
+
+    if (usuario.value.permisosDetallados?.length) {
+      authorizationStore.cargarPermisos(normalizarPermisos(usuario.value.permisosDetallados));
+
+      return;
+    }
+
+    authorizationStore.cargarPermisos(
+      convertirPermisosSimplesAPermisosModulo(usuario.value.permisos),
+    );
+  };
+
   const iniciarSesion = (credenciales: CredencialesLogin): boolean => {
     cargando.value = true;
     error.value = null;
@@ -70,6 +110,8 @@ export const useAuthStore = defineStore('auth', () => {
     sesion.value = resultado.sesion;
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(resultado.sesion));
+
+    sincronizarAutorizacion();
 
     return true;
   };
@@ -91,6 +133,8 @@ export const useAuthStore = defineStore('auth', () => {
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(resultado.sesion));
 
+    sincronizarAutorizacion();
+
     return true;
   };
 
@@ -110,6 +154,8 @@ export const useAuthStore = defineStore('auth', () => {
     sesion.value = resultado.sesion;
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(resultado.sesion));
+
+    sincronizarAutorizacion();
 
     return true;
   };
@@ -131,10 +177,16 @@ export const useAuthStore = defineStore('auth', () => {
       sesion.value = sesionParseada;
 
       localStorage.setItem(STORAGE_KEY, JSON.stringify(sesionParseada));
+
+      sincronizarAutorizacion();
     } catch {
       localStorage.removeItem(STORAGE_KEY);
 
       sesion.value = null;
+
+      const authorizationStore = useAuthorizationStore();
+
+      authorizationStore.limpiar();
     }
   };
 
@@ -143,8 +195,18 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
 
     localStorage.removeItem(STORAGE_KEY);
+
+    const authorizationStore = useAuthorizationStore();
+
+    authorizationStore.limpiar();
   };
 
+  /**
+   * Compatibilidad con el sistema actual.
+   *
+   * Más adelante esta función podrá delegar
+   * completamente en authorizationStore.
+   */
   const tienePermiso = (permiso: string): boolean => {
     if (esSuperadministrador.value) {
       return true;
@@ -170,5 +232,6 @@ export const useAuthStore = defineStore('auth', () => {
     restaurarSesion,
     cerrarSesion,
     tienePermiso,
+    sincronizarAutorizacion,
   };
 });

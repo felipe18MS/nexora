@@ -90,7 +90,7 @@
               </q-item>
 
               <!-- CONFIGURACIÓN -->
-              <q-item clickable v-close-popup to="/app/settings">
+              <q-item v-if="puedeVer('configuracion')" clickable v-close-popup to="/app/settings">
                 <q-item-section avatar>
                   <q-icon name="settings" />
                 </q-item-section>
@@ -134,10 +134,21 @@
 
         <q-scroll-area class="drawer-navigation">
           <!-- PRINCIPAL -->
-          <q-list padding>
+          <q-list
+            v-if="
+              puedeVer('dashboard') ||
+              puedeVer('clientes') ||
+              puedeVer('citas') ||
+              puedeVer('horario') ||
+              puedeVer('disponibilidad')
+            "
+            padding
+          >
             <q-item-label class="navigation-title"> PRINCIPAL </q-item-label>
 
+            <!-- DASHBOARD -->
             <q-item
+              v-if="puedeVer('dashboard')"
               clickable
               to="/app/dashboard"
               exact
@@ -151,7 +162,9 @@
               <q-item-section> Dashboard </q-item-section>
             </q-item>
 
+            <!-- CLIENTES -->
             <q-item
+              v-if="puedeVer('clientes')"
               clickable
               to="/app/customers"
               active-class="navigation-item--active"
@@ -164,7 +177,9 @@
               <q-item-section> Clientes </q-item-section>
             </q-item>
 
+            <!-- CITAS -->
             <q-item
+              v-if="puedeVer('citas')"
               clickable
               to="/app/appointments"
               active-class="navigation-item--active"
@@ -177,7 +192,9 @@
               <q-item-section> Citas </q-item-section>
             </q-item>
 
+            <!-- HORARIO -->
             <q-item
+              v-if="puedeVer('horario')"
               clickable
               to="/app/schedule"
               active-class="navigation-item--active"
@@ -190,7 +207,9 @@
               <q-item-section> Horario </q-item-section>
             </q-item>
 
+            <!-- DISPONIBILIDAD -->
             <q-item
+              v-if="puedeVer('disponibilidad')"
               clickable
               to="/app/availability"
               active-class="navigation-item--active"
@@ -205,10 +224,22 @@
           </q-list>
 
           <!-- OPERACIONES -->
-          <q-list padding>
+          <q-list
+            v-if="
+              puedeVer('servicios') ||
+              puedeVer('empleados') ||
+              puedeVer('pedidos') ||
+              puedeVer('productos') ||
+              puedeVer('inventario') ||
+              puedeVer('finanzas')
+            "
+            padding
+          >
             <q-item-label class="navigation-title"> OPERACIONES </q-item-label>
 
+            <!-- SERVICIOS -->
             <q-item
+              v-if="puedeVer('servicios')"
               clickable
               to="/app/services"
               active-class="navigation-item--active"
@@ -221,7 +252,9 @@
               <q-item-section> Servicios </q-item-section>
             </q-item>
 
+            <!-- PROFESIONALES -->
             <q-item
+              v-if="puedeVer('empleados')"
               clickable
               to="/app/employees"
               active-class="navigation-item--active"
@@ -234,7 +267,9 @@
               <q-item-section> Profesionales </q-item-section>
             </q-item>
 
+            <!-- PEDIDOS -->
             <q-item
+              v-if="puedeVer('pedidos')"
               clickable
               to="/app/orders"
               active-class="navigation-item--active"
@@ -247,7 +282,9 @@
               <q-item-section> Pedidos </q-item-section>
             </q-item>
 
+            <!-- PRODUCTOS -->
             <q-item
+              v-if="puedeVer('productos')"
               clickable
               to="/app/products"
               active-class="navigation-item--active"
@@ -260,7 +297,9 @@
               <q-item-section> Productos </q-item-section>
             </q-item>
 
+            <!-- INVENTARIO -->
             <q-item
+              v-if="puedeVer('inventario')"
               clickable
               to="/app/inventory"
               active-class="navigation-item--active"
@@ -273,7 +312,9 @@
               <q-item-section> Inventario </q-item-section>
             </q-item>
 
+            <!-- FINANZAS -->
             <q-item
+              v-if="puedeVer('finanzas')"
               clickable
               to="/app/finance"
               active-class="navigation-item--active"
@@ -288,10 +329,15 @@
           </q-list>
 
           <!-- COMUNICACIÓN -->
-          <q-list padding>
+          <q-list
+            v-if="puedeVer('conversaciones') || puedeVer('llamadas') || puedeVer('whatsapp')"
+            padding
+          >
             <q-item-label class="navigation-title"> COMUNICACIÓN </q-item-label>
 
+            <!-- CONVERSACIONES -->
             <q-item
+              v-if="puedeVer('conversaciones')"
               clickable
               to="/app/conversations"
               active-class="navigation-item--active"
@@ -304,7 +350,9 @@
               <q-item-section> Conversaciones </q-item-section>
             </q-item>
 
+            <!-- LLAMADAS -->
             <q-item
+              v-if="puedeVer('llamadas')"
               clickable
               to="/app/calls"
               active-class="navigation-item--active"
@@ -317,7 +365,9 @@
               <q-item-section> Llamadas </q-item-section>
             </q-item>
 
+            <!-- WHATSAPP -->
             <q-item
+              v-if="puedeVer('whatsapp')"
               clickable
               to="/app/whatsapp"
               active-class="navigation-item--active"
@@ -332,10 +382,12 @@
           </q-list>
 
           <!-- AUTOMATIZACIÓN -->
-          <q-list padding>
+          <q-list v-if="puedeVer('automatizaciones') || puedeVer('recordatorios')" padding>
             <q-item-label class="navigation-title"> AUTOMATIZACIÓN </q-item-label>
 
+            <!-- AUTOMATIZACIONES -->
             <q-item
+              v-if="puedeVer('automatizaciones')"
               clickable
               to="/app/automations"
               active-class="navigation-item--active"
@@ -348,7 +400,9 @@
               <q-item-section> Automatizaciones </q-item-section>
             </q-item>
 
+            <!-- RECORDATORIOS -->
             <q-item
+              v-if="puedeVer('recordatorios')"
               clickable
               to="/app/reminders"
               active-class="navigation-item--active"
@@ -363,10 +417,15 @@
           </q-list>
 
           <!-- INTELIGENCIA -->
-          <q-list padding>
+          <q-list
+            v-if="puedeVer('ai') || puedeVer('integraciones') || puedeVer('reportes')"
+            padding
+          >
             <q-item-label class="navigation-title"> INTELIGENCIA </q-item-label>
 
+            <!-- AGENTE IA -->
             <q-item
+              v-if="puedeVer('ai')"
               clickable
               to="/app/ai"
               active-class="navigation-item--active"
@@ -383,7 +442,9 @@
               </q-item-section>
             </q-item>
 
+            <!-- INTEGRACIONES -->
             <q-item
+              v-if="puedeVer('integraciones')"
               clickable
               to="/app/integrations"
               active-class="navigation-item--active"
@@ -396,7 +457,9 @@
               <q-item-section> Integraciones </q-item-section>
             </q-item>
 
+            <!-- REPORTES -->
             <q-item
+              v-if="puedeVer('reportes')"
               clickable
               to="/app/reports"
               active-class="navigation-item--active"
@@ -411,10 +474,21 @@
           </q-list>
 
           <!-- CONFIGURACIÓN -->
-          <q-list padding>
+          <!-- CONFIGURACIÓN -->
+          <q-list
+            v-if="
+              puedeVer('configuracion') ||
+              puedeVer('usuarios') ||
+              puedeVer('suscripcion') ||
+              esSuperadministrador
+            "
+            padding
+          >
             <q-item-label class="navigation-title"> CONFIGURACIÓN </q-item-label>
 
+            <!-- CONFIGURACIÓN -->
             <q-item
+              v-if="puedeVer('configuracion')"
               clickable
               to="/app/settings"
               active-class="navigation-item--active"
@@ -427,7 +501,9 @@
               <q-item-section> Configuración </q-item-section>
             </q-item>
 
+            <!-- USUARIOS -->
             <q-item
+              v-if="puedeVer('usuarios')"
               clickable
               to="/app/users"
               active-class="navigation-item--active"
@@ -440,7 +516,9 @@
               <q-item-section> Usuarios y permisos </q-item-section>
             </q-item>
 
+            <!-- SUSCRIPCIÓN -->
             <q-item
+              v-if="puedeVer('suscripcion')"
               clickable
               to="/app/subscription"
               active-class="navigation-item--active"
@@ -451,6 +529,21 @@
               </q-item-section>
 
               <q-item-section> Suscripción </q-item-section>
+            </q-item>
+
+            <!-- PLATFORM -->
+            <q-item
+              v-if="esSuperadministrador"
+              clickable
+              to="/app/platform"
+              active-class="navigation-item--active"
+              class="navigation-item"
+            >
+              <q-item-section avatar>
+                <q-icon name="admin_panel_settings" />
+              </q-item-section>
+
+              <q-item-section> Platform </q-item-section>
             </q-item>
           </q-list>
         </q-scroll-area>
@@ -487,10 +580,13 @@ import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { useAuth } from '../modules/auth/composables/use-auth';
+import { useAuthorization } from '../modules/authorization/composables/use-authorization';
 
 const router = useRouter();
 
-const { usuario, cerrarSesion: cerrarSesionAuth } = useAuth();
+const { usuario, esSuperadministrador, cerrarSesion: cerrarSesionAuth } = useAuth();
+
+const { puedeVer } = useAuthorization();
 
 const menuAbierto = ref(true);
 

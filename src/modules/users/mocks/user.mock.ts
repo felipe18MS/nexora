@@ -1,33 +1,10 @@
-import type { ModuloPermiso, PermisosModulo, Usuario } from '../types/user.types';
+import { MODULOS_SISTEMA } from '@/modules/authorization/constants/authorization.constants';
 
-const modulos: ModuloPermiso[] = [
-  'dashboard',
-  'clientes',
-  'citas',
-  'horario',
-  'disponibilidad',
-  'servicios',
-  'empleados',
-  'pedidos',
-  'productos',
-  'inventario',
-  'finanzas',
-  'conversaciones',
-  'llamadas',
-  'whatsapp',
-  'automatizaciones',
-  'recordatorios',
-  'ai',
-  'integraciones',
-  'reportes',
-  'usuarios',
-  'configuracion',
-  'suscripcion',
-];
+import type { PermisosModulo, Usuario } from '../types/user.types';
 
-export const crearPermisosCompletos = (): PermisosModulo[] => {
-  return modulos.map((modulo) => ({
-    modulo,
+const crearPermisosCompletos = (): PermisosModulo[] => {
+  return MODULOS_SISTEMA.map((modulo) => ({
+    modulo: modulo.codigo,
     ver: true,
     crear: true,
     editar: true,
@@ -35,9 +12,10 @@ export const crearPermisosCompletos = (): PermisosModulo[] => {
   }));
 };
 
-export const crearPermisosLimitados = (): PermisosModulo[] => {
-  return modulos.map((modulo) => ({
-    modulo,
+const crearPermisosLimitados = (): PermisosModulo[] => {
+  return MODULOS_SISTEMA.map((modulo) => ({
+    modulo: modulo.codigo,
+
     ver: [
       'dashboard',
       'clientes',
@@ -55,16 +33,20 @@ export const crearPermisosLimitados = (): PermisosModulo[] => {
       'whatsapp',
       'recordatorios',
       'reportes',
-    ].includes(modulo),
-    crear: ['clientes', 'citas', 'pedidos', 'conversaciones'].includes(modulo),
-    editar: ['clientes', 'citas', 'pedidos', 'conversaciones'].includes(modulo),
-    eliminar: ['clientes', 'citas', 'pedidos'].includes(modulo),
+    ].includes(modulo.codigo),
+
+    crear: ['clientes', 'citas', 'pedidos', 'conversaciones'].includes(modulo.codigo),
+
+    editar: ['clientes', 'citas', 'pedidos', 'conversaciones'].includes(modulo.codigo),
+
+    eliminar: ['clientes', 'citas', 'pedidos'].includes(modulo.codigo),
   }));
 };
 
-export const crearPermisosProfesional = (): PermisosModulo[] => {
-  return modulos.map((modulo) => ({
-    modulo,
+const crearPermisosProfesional = (): PermisosModulo[] => {
+  return MODULOS_SISTEMA.map((modulo) => ({
+    modulo: modulo.codigo,
+
     ver: [
       'dashboard',
       'clientes',
@@ -73,12 +55,17 @@ export const crearPermisosProfesional = (): PermisosModulo[] => {
       'disponibilidad',
       'servicios',
       'conversaciones',
-    ].includes(modulo),
-    crear: ['citas', 'conversaciones'].includes(modulo),
-    editar: ['citas', 'conversaciones'].includes(modulo),
+    ].includes(modulo.codigo),
+
+    crear: ['citas', 'conversaciones'].includes(modulo.codigo),
+
+    editar: ['citas', 'conversaciones'].includes(modulo.codigo),
+
     eliminar: false,
   }));
 };
+
+export { crearPermisosCompletos, crearPermisosLimitados, crearPermisosProfesional };
 
 export const usuariosMock: Usuario[] = [
   {
@@ -94,6 +81,7 @@ export const usuariosMock: Usuario[] = [
     creadoEn: '2026-01-10T09:00:00',
     permisos: crearPermisosCompletos(),
   },
+
   {
     id: 'usr-002',
     nombre: 'Andrés',
@@ -107,6 +95,7 @@ export const usuariosMock: Usuario[] = [
     creadoEn: '2026-02-15T10:30:00',
     permisos: crearPermisosCompletos(),
   },
+
   {
     id: 'usr-003',
     nombre: 'Camila',
@@ -120,6 +109,7 @@ export const usuariosMock: Usuario[] = [
     creadoEn: '2026-03-05T08:15:00',
     permisos: crearPermisosLimitados(),
   },
+
   {
     id: 'usr-004',
     nombre: 'Daniel',
@@ -133,6 +123,7 @@ export const usuariosMock: Usuario[] = [
     creadoEn: '2026-04-12T14:00:00',
     permisos: crearPermisosProfesional(),
   },
+
   {
     id: 'usr-005',
     nombre: 'Sofía',
@@ -146,6 +137,7 @@ export const usuariosMock: Usuario[] = [
     creadoEn: '2026-09-15T13:20:00',
     permisos: crearPermisosLimitados(),
   },
+
   {
     id: 'usr-006',
     nombre: 'Carlos',

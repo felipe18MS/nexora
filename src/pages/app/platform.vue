@@ -187,6 +187,13 @@
 import { computed, onMounted, ref } from 'vue';
 import { useQuasar } from 'quasar';
 
+definePage({
+  meta: {
+    roles: ['superadministrador'],
+    requiresSubscription: false,
+  },
+});
+
 import AppConfirmDialog from '../../components/common/app-confirm-dialog.vue';
 import PlatformBrandingDialog from '../../modules/platform/components/platform-branding-dialog.vue';
 import { usePlatformStore } from '../../modules/platform';

@@ -374,6 +374,13 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 
+definePage({
+  meta: {
+    module: 'clientes',
+    requiresSubscription: true,
+  },
+});
+
 import AppConfirmDialog from '@/components/common/app-confirm-dialog.vue';
 import { useNotifications } from '@/composables/use-notifications';
 import CustomerForm from '@/modules/customers/components/customer-form.vue';

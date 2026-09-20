@@ -48,6 +48,7 @@ export const credencialesAuthMock: UsuarioAuthMock[] = [
     apellido: 'Martinez',
     email: 'superadmin@nexora.com',
     telefono: '',
+    avatar: null,
     rol: 'superadministrador',
     cargo: 'Superadministrador',
     negocioId: null,
@@ -61,6 +62,7 @@ export const credencialesAuthMock: UsuarioAuthMock[] = [
     apellido: 'Gómez',
     email: 'admin@demo.nexora.com',
     telefono: '3001234567',
+    avatar: null,
     rol: 'administrador',
     cargo: 'Administradora',
     negocioId: 'negocio-demo-001',
@@ -111,7 +113,7 @@ export const usuariosAuthMock: UsuarioAutenticado[] = credencialesAuthMock.map(
     apellido,
     email,
     telefono,
-    ...(avatar !== undefined ? { avatar } : {}),
+    avatar,
     rol,
     cargo,
     negocioId,
@@ -127,11 +129,7 @@ const crearSesionMock = (usuario: UsuarioAuthMock): SesionAuth => {
     apellido: usuario.apellido,
     email: usuario.email,
     telefono: usuario.telefono,
-    ...(usuario.avatar !== undefined
-      ? {
-          avatar: usuario.avatar,
-        }
-      : {}),
+    avatar: usuario.avatar,
     rol: usuario.rol,
     cargo: usuario.cargo,
     negocioId: usuario.negocioId,
@@ -215,7 +213,6 @@ export const registrarUsuarioMock = (datos: CredencialesRegistro): ResultadoRegi
   const ahora = new Date().toISOString();
 
   const negocioId = `negocio-${Date.now()}`;
-
   const usuarioId = `usuario-${Date.now()}`;
 
   const negocio = {
@@ -231,6 +228,7 @@ export const registrarUsuarioMock = (datos: CredencialesRegistro): ResultadoRegi
     apellido: datos.apellido.trim(),
     email,
     telefono: datos.telefono.trim(),
+    avatar: null,
     rol: 'administrador',
     cargo: 'Administrador',
     negocioId,

@@ -1,8 +1,9 @@
-export type RolSistema =
-  'superadministrador' | 'administrador' | 'gerente' | 'recepcionista' | 'profesional';
+import type { PermisosModulo } from '@/modules/authorization/types/authorization.types';
+import type { RolUsuario } from '@/modules/users/types/user.types';
+
+export type { RolUsuario as RolSistema } from '@/modules/users/types/user.types';
 
 export type EstadoSuscripcion = 'prueba' | 'activa' | 'vencida' | 'cancelada' | 'suspendida';
-
 export type PlanSuscripcion = 'basico' | 'profesional' | 'empresarial';
 
 export interface Suscripcion {
@@ -26,12 +27,27 @@ export interface UsuarioAutenticado {
   apellido: string;
   email: string;
   telefono: string;
-  avatar?: string;
-  rol: RolSistema;
+  avatar: string | null;
+  rol: RolUsuario;
   cargo: string;
   negocioId: string | null;
   negocioNombre: string | null;
+
+  /**
+   * Compatibilidad con el modelo actual.
+   *
+   * Se mantendrá durante la transición al modelo
+   * centralizado de autorización.
+   */
   permisos: string[];
+
+  /**
+   * Modelo centralizado de permisos.
+   *
+   * Será el modelo principal cuando conectemos
+   * NEXORA con el backend.
+   */
+  permisosDetallados?: PermisosModulo[];
 }
 
 export interface CuentaRegistrada {

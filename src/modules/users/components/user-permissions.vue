@@ -247,6 +247,7 @@ const totalAcciones = computed(() => {
 
 const obtenerLabelRol = (rol: RolUsuario): string => {
   const labels: Record<RolUsuario, string> = {
+    superadministrador: 'Superadministrador',
     administrador: 'Administrador',
     gerente: 'Gerente',
     recepcionista: 'Recepcionista',

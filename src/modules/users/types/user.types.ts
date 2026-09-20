@@ -1,40 +1,16 @@
-export type RolUsuario = 'administrador' | 'gerente' | 'recepcionista' | 'profesional';
+import type {
+  ModuloSistema,
+  PermisosModulo,
+} from '@/modules/authorization/types/authorization.types';
+
+export type { ModuloSistema as ModuloPermiso, PermisosModulo };
+
+export type RolUsuario =
+  'superadministrador' | 'administrador' | 'gerente' | 'recepcionista' | 'profesional';
 
 export type EstadoUsuario = 'activo' | 'inactivo' | 'pendiente';
 
 export type TipoPermiso = 'ver' | 'crear' | 'editar' | 'eliminar';
-
-export type ModuloPermiso =
-  | 'dashboard'
-  | 'clientes'
-  | 'citas'
-  | 'horario'
-  | 'disponibilidad'
-  | 'servicios'
-  | 'empleados'
-  | 'pedidos'
-  | 'productos'
-  | 'inventario'
-  | 'finanzas'
-  | 'conversaciones'
-  | 'llamadas'
-  | 'whatsapp'
-  | 'automatizaciones'
-  | 'recordatorios'
-  | 'ai'
-  | 'integraciones'
-  | 'reportes'
-  | 'usuarios'
-  | 'configuracion'
-  | 'suscripcion';
-
-export interface PermisosModulo {
-  modulo: ModuloPermiso;
-  ver: boolean;
-  crear: boolean;
-  editar: boolean;
-  eliminar: boolean;
-}
 
 export interface Usuario {
   id: string;
