@@ -63,7 +63,9 @@ declare module 'vue-router/auto-routes' {
       | '/app/integrations'
       | '/app/inventory'
       | '/app/orders'
+      | '/app/platform'
       | '/app/products'
+      | '/app/profile'
       | '/app/reminders'
       | '/app/reports'
       | '/app/schedule'
@@ -164,9 +166,23 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/app/platform': RouteRecordInfo<
+      '/app/platform',
+      '/app/platform',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/app/products': RouteRecordInfo<
       '/app/products',
       '/app/products',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/app/profile': RouteRecordInfo<
+      '/app/profile',
+      '/app/profile',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -227,6 +243,20 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/auth/login': RouteRecordInfo<
+      '/auth/login',
+      '/auth/login',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/auth/register': RouteRecordInfo<
+      '/auth/register',
+      '/auth/register',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
   }
 
   /**
@@ -272,7 +302,9 @@ declare module 'vue-router/auto-routes' {
         | '/app/integrations'
         | '/app/inventory'
         | '/app/orders'
+        | '/app/platform'
         | '/app/products'
+        | '/app/profile'
         | '/app/reminders'
         | '/app/reports'
         | '/app/schedule'
@@ -390,9 +422,25 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
+    'src/pages/app/platform.vue': {
+      routes:
+        | '/app/platform'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
     'src/pages/app/products.vue': {
       routes:
         | '/app/products'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/app/profile.vue': {
+      routes:
+        | '/app/profile'
       views:
         | never
       pathParamNames:
@@ -457,6 +505,22 @@ declare module 'vue-router/auto-routes' {
     'src/pages/app/whatsapp.vue': {
       routes:
         | '/app/whatsapp'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/auth/login.vue': {
+      routes:
+        | '/auth/login'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'src/pages/auth/register.vue': {
+      routes:
+        | '/auth/register'
       views:
         | never
       pathParamNames:

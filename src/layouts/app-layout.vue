@@ -23,7 +23,7 @@
 
         <q-space />
 
-        <!-- Notificaciones -->
+        <!-- NOTIFICACIONES -->
         <q-btn
           flat
           round
@@ -37,23 +37,51 @@
           <q-tooltip>Notificaciones</q-tooltip>
         </q-btn>
 
-        <!-- Perfil -->
+        <!-- PERFIL -->
         <q-btn flat no-caps class="profile-button q-ml-sm">
-          <q-avatar size="36px" color="primary" text-color="white"> CM </q-avatar>
+          <q-avatar size="36px" color="primary" text-color="white">
+            {{ inicialesUsuario }}
+          </q-avatar>
 
           <div class="profile-info">
-            <div class="profile-name">Cristian Martínez</div>
+            <div class="profile-name">
+              {{ nombreUsuario }}
+            </div>
 
-            <div class="profile-role">Administrador</div>
+            <div class="profile-role">
+              {{ rolUsuario }}
+            </div>
           </div>
 
           <q-icon name="keyboard_arrow_down" size="20px" class="q-ml-sm" />
 
           <q-menu anchor="bottom right" self="top right" :offset="[0, 8]">
-            <q-list style="min-width: 210px">
+            <q-list style="min-width: 220px">
+              <!-- IDENTIDAD -->
+              <q-item>
+                <q-item-section avatar>
+                  <q-avatar size="38px" color="primary" text-color="white">
+                    {{ inicialesUsuario }}
+                  </q-avatar>
+                </q-item-section>
+
+                <q-item-section>
+                  <q-item-label class="menu-user-name">
+                    {{ nombreUsuario }}
+                  </q-item-label>
+
+                  <q-item-label caption>
+                    {{ usuario?.email }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
+
               <q-item-label header> Mi cuenta </q-item-label>
 
-              <q-item clickable v-close-popup to="/app/settings">
+              <!-- PERFIL -->
+              <q-item clickable v-close-popup to="/app/profile">
                 <q-item-section avatar>
                   <q-icon name="person_outline" />
                 </q-item-section>
@@ -61,6 +89,7 @@
                 <q-item-section> Perfil </q-item-section>
               </q-item>
 
+              <!-- CONFIGURACIÓN -->
               <q-item clickable v-close-popup to="/app/settings">
                 <q-item-section avatar>
                   <q-icon name="settings" />
@@ -71,7 +100,8 @@
 
               <q-separator />
 
-              <q-item clickable v-close-popup>
+              <!-- LOGOUT -->
+              <q-item clickable v-close-popup class="logout-item" @click="cerrarSesion">
                 <q-item-section avatar>
                   <q-icon name="logout" />
                 </q-item-section>
@@ -87,7 +117,7 @@
     <!-- SIDEBAR -->
     <q-drawer v-model="menuAbierto" show-if-above bordered :width="260" class="app-drawer">
       <div class="drawer-content">
-        <!-- Marca -->
+        <!-- MARCA -->
         <div class="drawer-brand">
           <div class="drawer-brand__icon">
             <q-icon name="auto_awesome" size="24px" />
@@ -298,10 +328,6 @@
               </q-item-section>
 
               <q-item-section> WhatsApp </q-item-section>
-
-              <q-item-section side>
-                <q-badge color="grey-5" text-color="white" label="Próximo" rounded />
-              </q-item-section>
             </q-item>
           </q-list>
 
@@ -320,10 +346,6 @@
               </q-item-section>
 
               <q-item-section> Automatizaciones </q-item-section>
-
-              <q-item-section side>
-                <q-badge color="grey-5" text-color="white" label="Próximo" rounded />
-              </q-item-section>
             </q-item>
 
             <q-item
@@ -337,10 +359,6 @@
               </q-item-section>
 
               <q-item-section> Recordatorios </q-item-section>
-
-              <q-item-section side>
-                <q-badge color="grey-5" text-color="white" label="Próximo" rounded />
-              </q-item-section>
             </q-item>
           </q-list>
 
@@ -389,10 +407,6 @@
               </q-item-section>
 
               <q-item-section> Reportes </q-item-section>
-
-              <q-item-section side>
-                <q-badge color="grey-5" text-color="white" label="Próximo" rounded />
-              </q-item-section>
             </q-item>
           </q-list>
 
@@ -424,10 +438,6 @@
               </q-item-section>
 
               <q-item-section> Usuarios y permisos </q-item-section>
-
-              <q-item-section side>
-                <q-badge color="grey-5" text-color="white" label="Próximo" rounded />
-              </q-item-section>
             </q-item>
 
             <q-item
@@ -441,10 +451,6 @@
               </q-item-section>
 
               <q-item-section> Suscripción </q-item-section>
-
-              <q-item-section side>
-                <q-badge color="grey-5" text-color="white" label="Próximo" rounded />
-              </q-item-section>
             </q-item>
           </q-list>
         </q-scroll-area>
@@ -453,15 +459,15 @@
         <div class="drawer-footer">
           <q-item
             clickable
-            to="/app/settings"
+            to="/app/profile"
             active-class="navigation-item--active"
             class="navigation-item"
           >
             <q-item-section avatar>
-              <q-icon name="settings" />
+              <q-icon name="person_outline" />
             </q-item-section>
 
-            <q-item-section> Configuración </q-item-section>
+            <q-item-section> Mi perfil </q-item-section>
           </q-item>
 
           <div class="drawer-version">NEXORA v1.0.0</div>
@@ -477,12 +483,60 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+import { useAuth } from '../modules/auth/composables/use-auth';
+
+const router = useRouter();
+
+const { usuario, cerrarSesion: cerrarSesionAuth } = useAuth();
 
 const menuAbierto = ref(true);
 
+const nombreUsuario = computed(() => {
+  if (!usuario.value) {
+    return 'Usuario';
+  }
+
+  return `${usuario.value.nombre} ${usuario.value.apellido}`;
+});
+
+const inicialesUsuario = computed(() => {
+  if (!usuario.value) {
+    return 'NX';
+  }
+
+  const nombre = usuario.value.nombre.trim();
+  const apellido = usuario.value.apellido.trim();
+
+  return `${nombre.charAt(0)}${apellido.charAt(0)}`.toUpperCase();
+});
+
+const rolUsuario = computed(() => {
+  if (!usuario.value) {
+    return 'Usuario';
+  }
+
+  const roles: Record<string, string> = {
+    superadministrador: 'Superadministrador',
+    administrador: 'Administrador',
+    gerente: 'Gerente',
+    recepcionista: 'Recepcionista',
+    profesional: 'Profesional',
+  };
+
+  return roles[usuario.value.rol] ?? 'Usuario';
+});
+
 const alternarMenu = (): void => {
   menuAbierto.value = !menuAbierto.value;
+};
+
+const cerrarSesion = (): void => {
+  cerrarSesionAuth();
+
+  void router.replace('/auth/login');
 };
 </script>
 
@@ -552,6 +606,18 @@ const alternarMenu = (): void => {
   color: #94a3b8;
   font-size: 11px;
   line-height: 1.3;
+}
+
+.menu-user-name {
+  font-weight: 700;
+}
+
+.logout-item {
+  color: #dc2626;
+}
+
+.logout-item:hover {
+  background: #fef2f2;
 }
 
 .app-drawer {
